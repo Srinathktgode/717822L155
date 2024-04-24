@@ -1,0 +1,127 @@
+package sanjeevsrinath;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.sql.Statement;
+
+public class dub {
+	public static Connection getCon() throws ClassNotFoundException, SQLException {
+		String url ="jdbc:postgresql://localhost:5432/postgres";
+		String username ="postgres";
+		String password ="12345678";
+		Connection con = DriverManager.getConnection(url,username,password);
+		Statement st = con.createStatement();
+		return con;
+}}
+package sanjeevsrinath;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.Scanner;
+
+//import HOTELPACK.HOTEL;
+
+//import HOTELPACK.HOTEL;
+
+public class University {
+	private static Connection con;
+	private static PreparedStatement pst;
+	private static Statement stat;
+	private static ResultSet rs;
+	public static void create() throws ClassNotFoundException, SQLException, java.sql.SQLException {
+		con=dub.getCon();
+		stat=con.createStatement();
+		stat.execute("create table studentnew(RollNo numeric(5),"
+				+ "Name varchar(15),Dept varchar(15))");
+		stat.execute("create table staff(staffid numeric(5),"
+				+ "staffName varchar(15),course varchar(15))");
+		System.out.println("Successfully Created");
+
+	}
+	public static void insert() throws ClassNotFoundException, SQLException, java.sql.SQLException {
+		con=dub.getCon();
+		stat=con.createStatement();
+		stat.execute("insert into studentnew values(101,'Anand','ECE')");
+		stat.execute("insert into studentnew values(102,'Barani','ETE')");
+		stat.execute("insert into studentnew values(103,'Charan','ECE')");
+		stat.execute("insert into staff values(51,'velu','EEE')");
+		stat.execute("insert into staff values(52,'raman','IT')");
+		stat.execute("insert into staff values(53,'selvan','CSE')");
+		System.out.println("Successfully inserted");
+	}
+
+		
+	public static void update() throws ClassNotFoundException, SQLException, java.sql.SQLException {
+		con=dub.getCon();
+		stat=con.createStatement();
+		System.out.println("update student set Dept='CSE' where  RollNo=103");
+		stat.execute("update student set Dept='CSE' where  RollNo=103");
+		
+		System.out.println("Successfully updated");
+	}
+	public static void delete() throws ClassNotFoundException, SQLException, java.sql.SQLException {
+		con=dub.getCon();
+		stat=con.createStatement();
+		System.out.println("delete from  staff where RollNo=52");
+		System.out.println("delete from studentnew where RollNo=103");
+		stat.execute("delete from studentnew where Dept = 'ECE' ");
+		stat.execute("delete from  staff where course = 'CSE' ");
+		
+		System.out.println("Successfully deleted");
+	}
+	public static void display1() throws ClassNotFoundException, SQLException, java.sql.SQLException {
+		con=dub.getCon();
+		stat=con.createStatement();
+		rs=stat.executeQuery("select * from studentnew");
+		while(rs.next()) {
+			System.out.println(rs.getInt(1)+" "+rs.getString(2)+" "+rs.getString(3));
+		}
+	}
+	public static void display2() throws ClassNotFoundException, SQLException {
+		con=dub.getCon();
+		pst=con.prepareStatement("select * from staff ");
+		rs=pst.executeQuery();
+		while(rs.next()) {
+			System.out.println(rs.getString(1)+" "+rs.getString(2)+" "+rs.getString(3));
+		}
+	}
+	
+public static void main(String[] args) throws ClassNotFoundException, SQLException, java.sql.SQLException {
+	int a;
+	//1create();
+	System.out.println("press=1(display student table) ");
+	System.out.println("press=2(display staff table) ");
+	System.out.println("press=3(delete) ");
+	System.out.println("press=4(update) ");
+	
+	
+	
+	//System.out.println("press=3(payment table) ");
+	Scanner s = new Scanner(System.in);
+	a=s.nextInt();
+	switch(a)
+	{
+	case 1:
+		display1();
+		break;
+	case 2:
+		display2();
+		break;
+		
+	case 3:
+		 delete();
+		break;
+		
+	case 4:
+		 update();
+		break;
+		
+		
+	
+}
+
+}}
